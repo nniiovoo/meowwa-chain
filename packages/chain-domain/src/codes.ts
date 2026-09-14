@@ -1,26 +1,20 @@
 export const SPECIES = ['cat', 'dog'] as const;
 
 /**
- * The need label a mandate may allow and a payment request records.
- *
- * The chain layer treats a need as an opaque key: it compares one against an owner's allowlist,
- * stores it on the request, and reports it in the audit trail. Nothing here decides which need a
- * pet has, or how one is arrived at; a need reaches this package already settled.
- *
- * Only labels a household can act on, because those are the only ones a mandate or a purchase can
- * be written against. A signal that resolved to no need at all never becomes a payment request,
- * so there is nothing for this vocabulary to name.
+ * A need is an opaque label: the vocabulary is owned by the interpretation service, which is not
+ * part of this repository, and is deliberately not enumerated here. Nothing in this package decides
+ * which need a pet has, or what the set of possible needs is. The money rails only ever compare a
+ * need against the owner's own allowlist and record it, so a validated shape is all they require —
+ * and keeping the set open means a new label never needs a change here to be spendable against.
  */
-export const NEED_CODES = [
-  'hunger',
-  'thirst',
-  'attention',
-  'play_or_enrichment',
-  'possible_discomfort',
-  'stress_or_fear',
-  'bathroom_or_litter',
-  'tiredness',
-] as const;
+export const NEED_CODE_PATTERN = /^[a-z][a-z0-9_]{0,63}$/;
+
+/** A validated need label. Opaque by construction: see NEED_CODE_PATTERN above. */
+export type NeedCode = string;
+
+export function isNeedCode(value: string): boolean {
+  return NEED_CODE_PATTERN.test(value);
+}
 
 export const CATEGORY_CODES = [
   'PET_FOOD',
@@ -63,7 +57,6 @@ export const POLICY_REASON_CODES = [
 ] as const;
 
 export type Species = (typeof SPECIES)[number];
-export type NeedCode = (typeof NEED_CODES)[number];
 export type CategoryCode = (typeof CATEGORY_CODES)[number];
 export type Actor = (typeof ACTOR_CODES)[number];
 export type MandateState = (typeof MANDATE_STATES)[number];

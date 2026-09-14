@@ -31,19 +31,19 @@ describe('merchant gateway provider', () => {
   it('allows production HTTP only for the exact Kubernetes gateway service, port, and path', () => {
     const apiKey = 'merchant_test_abcdefghijklmnopqrstuvwxyz012345';
     expect(() => new GatewayMerchantProvider({
-      baseUrl: 'http://controlled-merchant.meowwa-staging.svc.cluster.local:4010/v1/',
+      baseUrl: 'http://controlled-merchant.example-namespace.svc.cluster.local:4010/v1/',
       apiKey,
     })).toThrow('HTTPS');
     expect(() => new GatewayMerchantProvider({
-      baseUrl: 'http://controlled-merchant.meowwa-staging.svc.cluster.local:4010/v1/',
+      baseUrl: 'http://controlled-merchant.example-namespace.svc.cluster.local:4010/v1/',
       apiKey,
       allowInsecureKubernetesService: true,
     })).not.toThrow();
     for (const baseUrl of [
       'http://controlled-merchant.example:4010/v1/',
-      'http://controlled-merchant.meowwa-staging.svc.cluster.local.attacker:4010/v1/',
-      'http://controlled-merchant.meowwa-staging.svc.cluster.local:4011/v1/',
-      'http://controlled-merchant.meowwa-staging.svc.cluster.local:4010/v2/',
+      'http://controlled-merchant.example-namespace.svc.cluster.local.attacker:4010/v1/',
+      'http://controlled-merchant.example-namespace.svc.cluster.local:4011/v1/',
+      'http://controlled-merchant.example-namespace.svc.cluster.local:4010/v2/',
     ]) {
       expect(() => new GatewayMerchantProvider({
         baseUrl,

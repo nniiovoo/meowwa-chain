@@ -17,8 +17,7 @@ export const UNLIMITED_TRANSACTIONS = Number.MAX_SAFE_INTEGER;
  *
  * This is a separate question from what the owner allows. A mandate may list a need for reporting
  * or history, so the allowlist alone cannot be trusted to keep an unanswerable need out of a
- * purchase — a single pet signal reached an AWAITING_APPROVAL proposal for a bag of dog food
- * precisely because the seeded mandate happened to list `attention`.
+ * purchase: a label being mentioned by a mandate does not mean a purchase can answer it.
  *
  * Deliberately only the two needs the suggestion path already serves. Adding an entry here widens
  * what the agent may propose, so it is an owner-facing product decision rather than a refactor.

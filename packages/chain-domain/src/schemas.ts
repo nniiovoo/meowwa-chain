@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { EVM_ADDRESS_PATTERN } from './chain.js';
 import {
   ACTOR_CODES, BASE_SEPOLIA_CHAIN_ID, CATEGORY_CODES,
-  MANDATE_STATES, NEED_CODES, REQUEST_STATES, TEST_USDC,
+  MANDATE_STATES, NEED_CODE_PATTERN, REQUEST_STATES, TEST_USDC,
 } from './codes.js';
 
 const id = z.string().regex(/^[a-z][a-z0-9_:-]{2,127}$/i);
@@ -13,7 +13,7 @@ const minorUnits = z.number().int().safe().nonnegative();
 export const mandateSchema = z.object({
   mandateId: id, ownerId: id, petId: id, agentId: id,
   purposeCode: z.enum(['RECURRING_ESSENTIALS', 'OWNER_ASSISTED_PURCHASE']),
-  allowedNeedCodes: z.array(z.enum(NEED_CODES)).min(1),
+  allowedNeedCodes: z.array(z.string().regex(NEED_CODE_PATTERN)).min(1),
   allowedCategoryCodes: z.array(z.enum(CATEGORY_CODES)).min(1),
   allowedMerchantIds: z.array(id).min(1), allowedProductIds: z.array(id).min(1),
   token: z.literal(TEST_USDC), chainId: z.literal(BASE_SEPOLIA_CHAIN_ID),
@@ -35,7 +35,7 @@ export const mandateSchema = z.object({
 export const paymentRequestSchema = z.object({
   requestId: id, petId: id, ownerId: id, agentId: id, mandateId: id,
   interpretationId: id, interpretationVersion: z.string().min(1), taxonomyVersion: z.string().min(1),
-  ownerConfirmationStatus: z.enum(['confirmed', 'mandate_preapproved']), need: z.enum(NEED_CODES), category: z.enum(CATEGORY_CODES),
+  ownerConfirmationStatus: z.enum(['confirmed', 'mandate_preapproved']), need: z.string().regex(NEED_CODE_PATTERN), category: z.enum(CATEGORY_CODES),
   merchantId: id, productId: id, quantity: z.number().int().positive(), amountMinor: minorUnits,
   currency: z.literal(TEST_USDC), chainId: z.literal(BASE_SEPOLIA_CHAIN_ID), recipient: address, contract: address,
   quoteId: id, quoteExpiresAt: isoDate, taxMinor: minorUnits, shippingMinor: minorUnits, feesMinor: minorUnits,

@@ -15,5 +15,8 @@ export default defineConfig({
   test: {
     include: ['src/**/*.test.ts', 'packages/*/src/**/*.test.ts'],
     exclude: ['**/node_modules/**', '**/dist/**'],
+    // Matches the private application's API suite. The migration-convergence tests spawn real
+    // subprocesses against a shared SQLite file, which does not fit in the 5s default.
+    testTimeout: 20_000,
   },
 });

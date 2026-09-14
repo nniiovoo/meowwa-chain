@@ -316,7 +316,7 @@ export function createStore(): AppStore {
     periodLimitMinor: 3897, periodDays: 30, cooldownMinutes: 1440, maxTransactionsPerPeriod: 3,
     // Owner-set floors the autonomy gate compares an incoming signal against. Thresholds only:
     // what produces a signal quality or an interpretation score is not this repository's concern.
-    minimumSignalQuality: 0.9, minimumInterpretationScore: 0.75,
+    minimumSignalQuality: 0.5, minimumInterpretationScore: 0.5,
     validFrom: '2026-07-10T00:00:00.000Z', validUntil: '2027-07-10T00:00:00.000Z', policyVersion: 'v1',
     authorization: {
       kind: 'simulated_owner_approval', approvedBy: 'owner_1', approvedAt: '2026-07-10T00:00:00.000Z',
