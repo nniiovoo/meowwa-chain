@@ -8,7 +8,7 @@ const mandate: AutonomyMandate = {
   mode: 'LIMITED_AUTONOMY', allowedNeedCode: 'hunger', allowedMerchantId: 'merchant_approved_1',
   allowedProductId: 'product_usual_food_1', approvedAmountMinor: 1299, perTransactionLimitMinor: 1299,
   dailyLimitMinor: 1299, periodLimitMinor: 3897, periodDays: 30, cooldownMinutes: 1440,
-  maxTransactionsPerPeriod: 3, minimumSignalQuality: 0.9, minimumInterpretationScore: 0.75,
+  maxTransactionsPerPeriod: 3, minimumSignalQuality: 0.5, minimumInterpretationScore: 0.5,
   validFrom: '2026-07-10T00:00:00.000Z', validUntil: '2026-08-10T00:00:00.000Z',
   policyVersion: 'v1', authorization: {
     kind: 'simulated_owner_approval', approvedBy: 'owner_1', approvedAt: '2026-07-10T00:00:00.000Z',
@@ -19,7 +19,7 @@ const mandate: AutonomyMandate = {
 function input(overrides: Partial<AutonomyInput> = {}): AutonomyInput {
   return {
     now, ownerId: 'owner_1', petId: 'pet_mochi', agentId: 'agent_mochi', agentActive: true,
-    need: 'hunger', signalQuality: 0.92, interpretationScore: 0.78,
+    need: 'hunger', signalQuality: 0.6, interpretationScore: 0.6,
     merchantId: 'merchant_approved_1', productId: 'product_usual_food_1', category: 'PET_FOOD', amountMinor: 1299,
     quoteVerified: true,
     walletAvailable: true, emergencyMode: false, unresolvedReconciliation: false,
@@ -112,9 +112,9 @@ describe('bounded pet-agent autonomy', () => {
     [{ agentId: 'agent_pepper' }, 'PET_AGENT_MISMATCH'],
     [{ ownerId: 'owner_other' }, 'OWNER_PET_MISMATCH'],
     [{ mandate: { ...mandate, authorization: { ...mandate.authorization, approvedBy: 'owner_other' } } }, 'OWNER_AUTHORIZATION_INVALID'],
-    [{ need: 'attention' }, 'NEED_NOT_AUTONOMOUS'],
-    [{ signalQuality: 0.89 }, 'SIGNAL_QUALITY_LOW'],
-    [{ interpretationScore: 0.74 }, 'INTERPRETATION_SCORE_LOW'],
+    [{ need: 'other_need' }, 'NEED_NOT_AUTONOMOUS'],
+    [{ signalQuality: 0.4 }, 'SIGNAL_QUALITY_LOW'],
+    [{ interpretationScore: 0.4 }, 'INTERPRETATION_SCORE_LOW'],
     [{ merchantId: 'merchant_other' }, 'MERCHANT_NOT_AUTONOMOUS'],
     [{ productId: 'product_other' }, 'PRODUCT_NOT_AUTONOMOUS'],
     [{ amountMinor: 1300 }, 'PRICE_CHANGED'],

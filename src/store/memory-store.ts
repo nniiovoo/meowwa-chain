@@ -359,12 +359,6 @@ export function nextId(store: AppStore, prefix: string): string {
     : `${prefix}_${store.sequence}`;
 }
 
-export function canCreditWallet(wallet: Wallet, amountMinor: number): boolean {
-  return Number.isSafeInteger(wallet.balanceMinor) && wallet.balanceMinor >= 0 &&
-    Number.isSafeInteger(amountMinor) && amountMinor >= 0 &&
-    wallet.balanceMinor <= Number.MAX_SAFE_INTEGER - amountMinor;
-}
-
 /**
  * Wallet accounting is in whole cents; USDC is six decimals. One cent is therefore 10,000 atomic
  * units, and this is the only place that conversion is written down.
@@ -418,27 +412,12 @@ export function syncPocUsdcHolding(wallet: Wallet): void {
   }, ...(wallet.holdings ?? [])];
 }
 
-export function walletForPet(store: AppStore, petId: string): Wallet | undefined {
-  return store.wallets.get(petId);
-}
-
 export function mandateForPet(store: AppStore, petId: string): PetMandate | undefined {
   return store.mandates.get(petId);
 }
 
 export function budgetForPet(store: AppStore, petId: string): BudgetLedger | undefined {
   return store.budgets.get(petId);
-}
-
-/**
- * Receipt states with no outgoing transition. They cannot reconcile themselves, so only an
- * explicit owner decision can close them out. `merchant_pending` is deliberately excluded:
- * it still progresses to `reconciled` on its own and must never be dismissed by hand.
- */
-export function receiptAwaitsOwnerResolution(receipt: Receipt): boolean {
-  return receipt.status === 'disputed' ||
-    receipt.reconciliationStatus === 'authorization_review' ||
-    receipt.reconciliationStatus === 'reorg_review';
 }
 
 export function petHasUnresolvedFinancialState(store: AppStore, petId: string): boolean {
@@ -458,12 +437,6 @@ export function petHasUnresolvedFinancialState(store: AppStore, petId: string): 
 export function petHasUnresolvedWalletActivity(store: AppStore, petId: string): boolean {
   return petHasUnresolvedFinancialState(store, petId) || [...store.paymentAttempts.entries()].some(([requestId, attempt]) =>
     store.requests.get(requestId)?.petId === petId && (attempt.status === 'pending' || attempt.status === 'unknown'));
-}
-
-export function petHasOpenSupportCase(store: AppStore, petId: string): boolean {
-  return store.supportCases.some((supportCase) =>
-    supportCase.status !== 'resolved' && supportCase.requestId !== undefined &&
-    store.requests.get(supportCase.requestId)?.petId === petId);
 }
 
 /**

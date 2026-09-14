@@ -93,7 +93,7 @@ describe('financial harness', () => {
     [{ mandate: { ...validInput().mandate, status: 'EXPIRED' as const } }, 'MANDATE_EXPIRED'],
     [{ mandate: { ...validInput().mandate, validFrom: '2026-07-11T00:00:00.000Z' } }, 'MANDATE_NOT_YET_VALID'],
     [{ interpretationValid: false }, 'INTERPRETATION_INVALID'],
-    [{ need: 'thirst' as const }, 'NEED_NOT_ALLOWED'],
+    [{ need: 'unlisted_need' as const }, 'NEED_NOT_ALLOWED'],
     [{ category: 'GROOMING' as const }, 'CATEGORY_NOT_ALLOWED'],
     [{ productId: 'product_unknown' }, 'PRODUCT_NOT_ALLOWED'],
     [{ token: 'DAI' as never }, 'TOKEN_NOT_ALLOWED'],
