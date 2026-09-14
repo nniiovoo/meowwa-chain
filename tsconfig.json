@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "lib": ["ES2023"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "sourceMap": true,
+    "types": ["node"],
+    "rootDir": ".",
+    "outDir": "dist",
+    "paths": {
+      "@meowwa/chain-domain": ["./packages/chain-domain/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*.ts", "packages/*/src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}

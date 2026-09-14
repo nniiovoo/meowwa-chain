@@ -1,0 +1,31 @@
+MeowWa Chain
+Copyright 2026 MeowWa
+
+Scope of this repository
+------------------------
+
+This repository contains the blockchain and wallet-control portion of MeowWa only: multi-chain
+descriptors, wallet provisioning and wallet-control policy, USDC transfer and balance readers,
+receive indexing, merchant reconciliation, onramp funding, purchase intents, and the deterministic
+spending policy gate. That code is licensed to you under the Apache License, Version 2.0, as set
+out in the LICENSE file in this repository.
+
+Not covered by this grant
+-------------------------
+
+The following remain proprietary to MeowWa, are not published in this repository, and are not
+licensed under its Apache-2.0 grant:
+
+  * the pet-signal interpretation services, and the gateways and adapters in front of them;
+  * model assets, prompts, taxonomies, evaluation data and calibration artifacts;
+  * the MeowWa client applications;
+  * the remainder of the MeowWa API outside the modules published here.
+
+No license to any of the above, express or implied, is granted by this repository or by the
+Apache License, Version 2.0, as applied to it.
+
+Trademarks
+----------
+
+"MeowWa" and the MeowWa name and marks are trademarks of MeowWa. As stated in Section 6 of the
+Apache License, Version 2.0, this License does not grant permission to use them.

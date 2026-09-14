@@ -1,0 +1,32 @@
+{
+  "name": "meowwa-chain",
+  "version": "0.1.0",
+  "private": false,
+  "license": "Apache-2.0",
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "workspaces": [
+    "packages/chain-domain"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@fastify/helmet": "13.1.0",
+    "@privy-io/node": "^0.26.0",
+    "fastify": "5.12.3",
+    "stripe": "^22.3.1",
+    "viem": "2.55.15",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "26.2.0",
+    "tsx": "4.20.6",
+    "typescript": "6.0.3",
+    "vitest": "4.1.10"
+  }
+}
