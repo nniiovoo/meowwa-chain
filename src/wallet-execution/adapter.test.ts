@@ -14,7 +14,7 @@ const smartWalletAddress = '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
 function request(overrides: Partial<PaymentRequest> = {}): PaymentRequest {
   return {
     requestId: 'request_123', petId: 'pet_mochi', ownerId: 'owner_1', agentId: 'agent_mochi',
-    mandateId: 'mandate_alpha', interpretationId: 'interpretation_1', interpretationVersion: 'cat-model-alpha',
+    mandateId: 'mandate_alpha', interpretationId: 'interpretation_1', interpretationVersion: 'interpretation-version-1',
     taxonomyVersion: 'v1', ownerConfirmationStatus: 'confirmed', need: 'hunger', category: 'PET_FOOD',
     merchantId: 'merchant_approved_1', productId: 'product_usual_food_1', quantity: 1, amountMinor: 1299,
     currency: 'USDC', chainId: 84532, recipient, contract: BASE_SEPOLIA_USDC,

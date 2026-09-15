@@ -30,3 +30,15 @@ export function archivedDepositNotice(store: ArchivedPetLookup, petId: string, m
   if (!pet?.archivedAt) return message;
   return `${message} This pet is archived: the money is held, not spent \u2014 withdraw it under Archived pets.`;
 }
+
+/**
+ * Refuses money-in for an archived pet, which is the opposite choice from the notice above and for
+ * a good reason: a funding session is started by the owner, in the app, and can simply be declined.
+ * A chain deposit cannot. So the rail the owner controls refuses, and the rail anyone can reach
+ * accepts and says where the money went.
+ */
+export function archivedPetFundingRefusal(store: ArchivedPetLookup, petId: string) {
+  return store.pets.find((pet) => pet.petId === petId)?.archivedAt
+    ? { type: 'pet-archived', title: 'Restore the pet before adding money to its wallet', status: 409 as const }
+    : undefined;
+}

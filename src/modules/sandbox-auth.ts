@@ -79,3 +79,26 @@ export const MAX_STEP_UP_MESSAGE_CHARACTERS = stepUpMessage({
   // The largest issuedAt whose expiresAt is still 13 digits, i.e. the widest both lines can be.
   issuedAt: 9_999_999_999_999 - PRIVY_CHALLENGE_TTL_MS,
 }).length;
+
+/**
+ * Characters that cannot survive being read aloud in a confirmation: control and separator classes,
+ * and the space-lookalikes that are not a space. Line breaks are what a forger would use to fake a
+ * second field inside a signed message, so they fail here rather than being rewritten.
+ */
+const unstatableCharacters = /[\p{C}\p{Zl}\p{Zp}]|(?! )\p{Zs}/u;
+
+/**
+ * The zero-width joiner inside an emoji sequence is exempt, and only for this test. A family emoji
+ * is one glyph to a reader and several code points to a parser, and refusing it would refuse an
+ * ordinary pet name. Nothing stored, signed or displayed is altered by the exemption.
+ */
+const emojiZeroWidthJoiner = /(?<=\p{Extended_Pictographic}️?)‍(?=\p{Extended_Pictographic})/gu;
+
+/** Whether text can be stated verbatim in an owner confirmation without being rewritten. */
+export function isDisclosableText(text: string): boolean {
+  return !unstatableCharacters.test(text.replaceAll(emojiZeroWidthJoiner, ''));
+}
+
+/** The 400 those routes answer with, in one place so all of them say the same thing. */
+export const DISCLOSABLE_TEXT_REQUIREMENT =
+  'Text cannot contain line breaks or control, invisible or text-direction characters';

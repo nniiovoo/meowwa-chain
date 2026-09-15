@@ -526,3 +526,19 @@ export function appendAudit(store: AppStore, input: {
   store.audit.push(event);
   return event;
 }
+
+/** Looks up a pet's wallet. The rails treat the pet id as the wallet's key. */
+export function walletForPet(store: AppStore, petId: string): Wallet | undefined {
+  return store.wallets.get(petId);
+}
+
+/**
+ * Validates a client-supplied `Idempotency-Key`. `undefined` means the header was absent, which is
+ * allowed; `null` means it was present and unusable, which is a 400. The bounds are what a replay
+ * guard needs -- long enough to be unique, short enough not to be a payload.
+ */
+export function parseIdempotencyKey(raw: unknown): string | null | undefined {
+  if (raw === undefined) return undefined;
+  if (typeof raw !== 'string' || raw.length < 8 || raw.length > 200 || raw.trim() !== raw) return null;
+  return raw;
+}
